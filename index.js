@@ -1,21 +1,14 @@
-const combSort = (arr) => {
-  const shrinkFactor = 1.3;
-  let gap = arr.length;
-  let swapped = true;
-  while (gap > 1 || swapped) {
-    gap = Math.floor(gap / shrinkFactor);
-    if (gap < 1) {
-      gap = 1;
-    }
-    swapped = false;
-    let i = 0;
-    while (i + gap < arr.length) {
-      if (arr[i] > arr[i + gap]) {
-        [arr[i], arr[i + gap]] = [arr[i + gap], arr[i]];
-        swapped = true;
+function wordBreak(s, wordDict) {
+  const wordSet = new Set(wordDict);
+  const dp = new Array(s.length + 1).fill(false);
+  dp[0] = true;
+  for (let end = 1; end <= s.length; end++) {
+    for (let start = 0; start < end; start++) {
+      if (dp[start] && wordSet.has(s.substring(start, end))) {
+        dp[end] = true;
+        break;
       }
-      i++;
     }
   }
-  return arr;
-};
+  return dp[s.length];
+}
