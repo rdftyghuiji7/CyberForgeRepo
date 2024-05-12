@@ -1,40 +1,28 @@
-const strandSort = (arr) => {
-  const extract = (arr, x) => {
-    const extracted = [];
+const pancakeSort = (arr) => {
+  const flip = (arr, k) => {
     let i = 0;
-    while (i < arr.length) {
-      if (x.includes(arr[i])) {
-        extracted.push(arr.splice(i, 1)[0]);
-      } else {
-        i++;
-      }
+    while (i < k / 2) {
+      [arr[i], arr[k - i]] = [arr[k - i], arr[i]];
+      i++;
     }
-    return extracted;
   };
-  const merge = (a, b) => {
-    const merged = [];
-    let i = 0;
-    let j = 0;
-    while (i < a.length && j < b.length) {
-      if (a[i] < b[j]) {
-        merged.push(a[i]);
-        i++;
-      } else {
-        merged.push(b[j]);
-        j++;
+  const findMaxIndex = (arr, n) => {
+    let maxIndex = 0;
+    for (let i = 0; i < n; i++) {
+      if (arr[i] > arr[maxIndex]) {
+        maxIndex = i;
       }
     }
-    return merged.concat(i < a.length ? a.slice(i) : b.slice(j));
+    return maxIndex;
   };
-  let sorted = [];
-  while (arr.length > 0) {
-    let sublist = [arr.shift()];
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] > sublist[sublist.length - 1]) {
-        sublist.push(arr.splice(i, 1)[0]);
-      }
+  let currentSize = arr.length;
+  while (currentSize > 1) {
+    const maxIndex = findMaxIndex(arr, currentSize);
+    if (maxIndex !== currentSize - 1) {
+      flip(arr, maxIndex);
+      flip(arr, currentSize - 1);
     }
-    sorted = merge(sorted, sublist);
+    currentSize--;
   }
-  return sorted;
+  return arr;
 };
