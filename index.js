@@ -1,22 +1,16 @@
-function mergeSort(arr) {
-  if (arr.length <= 1) return arr;
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid));
-  const right = mergeSort(arr.slice(mid));
-  return merge(left, right);
-}
-function merge(left, right) {
-  let result = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-  while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex] < right[rightIndex]) {
-      result.push(left[leftIndex]);
-      leftIndex++;
-    } else {
-      result.push(right[rightIndex]);
-      rightIndex++;
+const countingSort = (arr) => {
+  const min = Math.min(...arr);
+  const max = Math.max(...arr);
+  const count = Array(max - min + 1).fill(0);
+  for (let num of arr) {
+    count[num - min]++;
+  }
+  let sortedIndex = 0;
+  for (let i = min; i <= max; i++) {
+    while (count[i - min] > 0) {
+      arr[sortedIndex++] = i;
+      count[i - min]--;
     }
   }
-  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-}
+  return arr;
+};
