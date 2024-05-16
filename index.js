@@ -1,1 +1,2 @@
-const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
+const countOccurrences = (arr, value) =>
+  arr.reduce((a, v) => (v === value ? a + 1 : a), 0);
